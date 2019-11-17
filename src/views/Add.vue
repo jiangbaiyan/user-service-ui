@@ -21,7 +21,10 @@
                 store.commit('addItem', {
                     title: this.title,
                     content: this.content
-                })
+                });
+                this.title = '';
+                this.content = '';
+                this.$router.push('/home/list')
             }
         }
     }
