@@ -15,7 +15,6 @@
             </el-menu>
         </el-header>
 
-
         <el-main>
             <el-table
                     :data="tableData"
@@ -53,7 +52,23 @@
                     <el-button type="primary">删除</el-button>
                 </el-table-column>
             </el-table>
+
+            <el-pagination
+                    background
+                    layout="total, prev, pager, next, jumper"
+                    :total="total"
+                    :page-size="length"
+                    @current-change="pageChange">
+            </el-pagination>
+
         </el-main>
+
+        <el-footer>
+            <p>Copyright © 2004-2019 nos版权所有 Powered by jiangbaiyan</p>
+            <p>联系邮箱：
+                <a href="mailto:987082332@qq.com">987082332@qq.com</a>
+            </p>
+        </el-footer>
 
     </el-container>
 </template>
@@ -63,38 +78,74 @@
         name: "List",
         data() {
             return {
+                page: 1,
+                length: 10,
+                total: 0,
                 tableData: '',
                 name: 'jiangbaiyan'
             }
         },
-        mounted() {
-            this.$ajax.post('http://152.136.125.67:9600/user/query', {
-                appId: 'uc_all',
-                accessToken: 'adfadsfsad',
-                timestamp: 1512412,
-                unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
-            }).then((response) => {
-                for (let item of response.data.data) {
-                    if (item.is_activate === 1) {
-                        item.is_activate = '已激活';
-                    } else {
-                        item.is_activate = '未激活';
+        methods: {
+            async query(page = 1, length = 10) {
+                this.page = page;
+                this.length = length;
+                await this.request();
+            },
+            request() {
+                let params = {
+                    appId: 'uc_all',
+                    accessToken: 'adfadsfsad',
+                    timestamp: 1512412,
+                    unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+                    page: this.page,
+                    length: this.length
+                };
+                let url = 'http://152.136.125.67:9600/user/query';
+                this.$axios.post(url, params).then(response => {
+                    let ret = response.data.data.data;
+                    // 处理激活状态
+                    for (let item of ret) {
+                        if (item.is_activate === 1) {
+                            item.is_activate = '已激活';
+                        } else {
+                            item.is_activate = '未激活';
+                        }
                     }
-                }
-                this.tableData = response.data.data;
-            }).catch((error) => {
-                console.log(error)
-            });
+                    // 将值赋给table
+                    this.tableData = ret;
+                    this.total     = response.data.data.total;
+                })
+            },
+            pageChange(curPage) {
+                this.query(curPage) // 分页切换查询
+            }
+        },
+        mounted() {
+            this.query(); // 页面加载直接查询
         },
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .first {
         margin-left: 30%;
     }
-
     .user {
         float: right;
     }
+    .el-pagination {
+        margin-top: 20px;
+        float: right;
+    }
+    .el-footer {
+        p {
+            color: #666;
+            text-align: center;
+            left: 100px;
+            a {
+                color: #09f;
+            }
+        }
+    }
+
 </style>
