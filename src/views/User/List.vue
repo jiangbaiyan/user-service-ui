@@ -1,23 +1,13 @@
 <template>
     <el-container>
 
-        <el-header>
-            <el-menu
-                    mode="horizontal"
-                    text-color="#fff"
-                    active-text-color="#ffd04b"
-                    background-color="#545c64"
-                    class="el-menu-demo">
-                <el-menu-item class="first el-icon-user" index="1"> 用户管理</el-menu-item>
-                <el-menu-item class="el-icon-s-cooperation" index="2"> 业务管理</el-menu-item>
-                <el-menu-item class="el-icon-lock" index="3"> 权限管理</el-menu-item>
-                <el-menu-item class="user"> 欢迎您：{{name}}</el-menu-item>
-            </el-menu>
-        </el-header>
-
         <el-main>
 
+            <Header></Header>
+
             <Modify :form="row" :dialogVisible="dialogVisible" @resetDialog="resetDialog"></Modify>
+
+            <Delete></Delete>
 
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="id" label="id" width="180">
@@ -47,14 +37,9 @@
                     @current-change="pageChange">
             </el-pagination>
 
-        </el-main>
+            <Footer></Footer>
 
-        <el-footer>
-            <p>Copyright © 2004-2019 nos版权所有 Powered by jiangbaiyan</p>
-            <p>联系邮箱：
-                <a href="mailto:987082332@qq.com">987082332@qq.com</a>
-            </p>
-        </el-footer>
+        </el-main>
 
     </el-container>
 </template>
@@ -62,9 +47,14 @@
 <script>
     import env from '../../config/env';
     import Modify from "./Modify";
+    import Header from "../../components/Header";
+    import Footer from "../../components/Footer";
+
     export default {
         name: "List",
         components: {
+            Header,
+            Footer,
             Modify
         },
         data() {
@@ -134,25 +124,9 @@
 </script>
 
 <style scoped lang="scss">
-    .first {
-        margin-left: 30%;
-    }
-    .user {
-        float: right;
-    }
     .el-pagination {
         margin-top: 20px;
         float: right;
-    }
-    .el-footer {
-        p {
-            color: #666;
-            text-align: center;
-            left: 100px;
-            a {
-                color: #09f;
-            }
-        }
     }
 
 </style>
