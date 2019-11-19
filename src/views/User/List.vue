@@ -16,40 +16,26 @@
         </el-header>
 
         <el-main>
-            <el-table
-                    :data="tableData"
-                    stripe
-                    style="width: 100%">
-                <el-table-column
-                        prop="id"
-                        label="id"
-                        width="180">
+
+            <Modify :form="row" :dialogVisible="dialogVisible" @resetDialog="resetDialog"></Modify>
+
+            <el-table :data="tableData" stripe style="width: 100%">
+                <el-table-column prop="id" label="id" width="180">
                 </el-table-column>
-                <el-table-column
-                        prop="email"
-                        label="邮箱"
-                        width="180">
+                <el-table-column prop="email" label="邮箱" width="180">
                 </el-table-column>
-                <el-table-column
-                        prop="name"
-                        label="昵称">
+                <el-table-column prop="name" label="昵称">
                 </el-table-column>
-                <el-table-column
-                        prop="is_activate"
-                        label="是否激活">
+                <el-table-column prop="is_activate" label="是否激活">
                 </el-table-column>
-                <el-table-column
-                        prop="created_at"
-                        label="创建时间">
+                <el-table-column prop="created_at" label="创建时间">
                 </el-table-column>
-                <el-table-column
-                        prop="updated_at"
-                        label="修改时间">
-                </el-table-column>
-                <el-table-column
-                        label="操作">
-                    <el-button type="primary">修改</el-button>
-                    <el-button type="primary">删除</el-button>
+                <el-table-column prop="updated_at" label="修改时间"></el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button type="primary" @click="handleModify(scope.row)">修改</el-button>
+                        <el-button type="primary" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
                 </el-table-column>
             </el-table>
 
@@ -74,15 +60,25 @@
 </template>
 
 <script>
+    import env from '../../config/env';
+    import Modify from "./Modify";
     export default {
         name: "List",
+        components: {
+            Modify
+        },
         data() {
             return {
                 page: 1,
                 length: 10,
                 total: 0,
                 tableData: '',
-                name: 'jiangbaiyan'
+                name: 'jiangbaiyan',
+                row: {
+                    title: '默认标题',
+                    content: '内容'
+                },
+                dialogVisible: false
             }
         },
         methods: {
@@ -100,7 +96,7 @@
                     page: this.page,
                     length: this.length
                 };
-                let url = 'http://152.136.125.67:9600/user/query';
+                let url = env.host + '/user/query';
                 this.$axios.post(url, params).then(response => {
                     let ret = response.data.data.data;
                     // 处理激活状态
@@ -118,6 +114,17 @@
             },
             pageChange(curPage) {
                 this.query(curPage) // 分页切换查询
+            },
+            handleModify(row) {
+                this.dialogVisible = true;
+                this.row = row;
+            },
+            handleDelete(row) {
+                this.dialogVisible = true;
+                this.row = row;
+            },
+            resetDialog() {
+                this.dialogVisible = false;
             }
         },
         mounted() {
