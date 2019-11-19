@@ -29,8 +29,11 @@
 </script>
 
 <style scoped>
+    .el-menu-item {
+        margin-left: 5%;
+    }
     .first {
-        margin-left: 30%;
+        margin-left: 20%;
     }
     .user {
         float: right;

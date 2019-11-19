@@ -5,8 +5,27 @@
             :before-close="resetDialog"
             width="30%">
         <el-form :model="form">
-            <el-form-item v-for="(value, key, index) in form" :key="index" :label="key">
-                <el-input :value="value"></el-input>
+            <el-form-item  label="邮箱">
+                <el-input :value="form.email"></el-input>
+            </el-form-item>
+            <el-form-item  label="昵称">
+                <el-input :value="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="是否激活">
+                <el-radio-group v-model="form.is_activate">
+                    <el-radio :label="1">已激活</el-radio>
+                    <el-radio :label="0">未激活</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="资源节点">
+                <el-select v-model="value" placeholder="请选择">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -28,7 +47,7 @@
             form: {
                 type: Object,
                 default() {
-                    return [];
+                    return null;
                 }
             },
             dialogVisible: {
@@ -43,7 +62,7 @@
                 this.dialogVisible = false;
                 this.$emit('resetDialog');
             }
-        },
+        }
     };
 </script>
 

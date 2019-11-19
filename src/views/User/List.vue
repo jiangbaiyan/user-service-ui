@@ -63,12 +63,9 @@
                 length: 10,
                 total: 0,
                 tableData: '',
-                name: 'jiangbaiyan',
-                row: {
-                    title: '默认标题',
-                    content: '内容'
-                },
-                dialogVisible: false
+                name: '',
+                dialogVisible: false,
+                row: '',
             }
         },
         methods: {
@@ -88,17 +85,8 @@
                 };
                 let url = env.host + '/user/query';
                 this.$axios.post(url, params).then(response => {
-                    let ret = response.data.data.data;
-                    // 处理激活状态
-                    for (let item of ret) {
-                        if (item.is_activate === 1) {
-                            item.is_activate = '已激活';
-                        } else {
-                            item.is_activate = '未激活';
-                        }
-                    }
                     // 将值赋给table
-                    this.tableData = ret;
+                    this.tableData = response.data.data.data;
                     this.total     = response.data.data.total;
                 })
             },
