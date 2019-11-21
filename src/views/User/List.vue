@@ -50,6 +50,15 @@
     import Header from "../../components/Header";
     import Footer from "../../components/Footer";
 
+    let params = {
+        appId: 'uc_all',
+        accessToken: 'adfadsfsad',
+        timestamp: 1512412,
+        unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+        page: 1,
+        length: 10
+    };
+
     export default {
         name: "List",
         components: {
@@ -69,21 +78,21 @@
             }
         },
         methods: {
-            async query(page = 1, length = 10) {
+            async query(target, page = 1, length = 10) {
                 this.page = page;
                 this.length = length;
-                await this.request();
+                await eval('get' + target);
             },
-            request() {
-                let params = {
-                    appId: 'uc_all',
-                    accessToken: 'adfadsfsad',
-                    timestamp: 1512412,
-                    unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
-                    page: this.page,
-                    length: this.length
-                };
+            getUser() {
                 let url = env.host + '/user/query';
+                this.$axios.post(url, params).then(response => {
+                    // 将值赋给table
+                    this.tableData = response.data.data.data;
+                    this.total     = response.data.data.total;
+                })
+            },
+            getResource() {
+                let url = env.host + '/resource/query';
                 this.$axios.post(url, params).then(response => {
                     // 将值赋给table
                     this.tableData = response.data.data.data;
@@ -106,7 +115,8 @@
             }
         },
         mounted() {
-            this.query(); // 页面加载直接查询
+            this.query('User'); // 用户列表
+            this.query('Resource') // 资源列表
         },
     }
 </script>
