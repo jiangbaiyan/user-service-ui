@@ -18,7 +18,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="资源节点">
-                <el-select v-model="form.resource" placeholder="请选择资源节点">
+                <el-select v-model="this.select" placeholder="请选择资源节点">
                     <el-option
                             v-for="item in resource"
                             :key="item.id"
@@ -36,7 +36,6 @@
 
 <script>
     import env from "../../config/env";
-
     export default {
         name: 'Modify',
         props: {
@@ -68,7 +67,6 @@
         methods: {
             onSubmit() {
                 let url = env.host + '/user/update';
-                console.log(this.form);
                 this.$axios.put(url, {
                     appId: 'uc_all',
                     accessToken: 'adfadsfsad',
@@ -78,19 +76,34 @@
                     data: {
                         email: this.form.email,
                         name: this.form.name,
-                        resource_id: this.form.resource
+                        resource_id: this.select
                     }
                 }).then(response => {
-                    if (response.data.data.status === 200) {
+                    if (response.data.status === 200) {
                         this.resetDialog();
+                        this.$alert('修改成功', '提示');
                     } else {
-                        alert ('修改失败');
+                        this.$alert('修改失败', '提示');
                     }
                 });
             },
             resetDialog() {
                 this.dialogVisible = false;
                 this.$emit('resetDialog');
+            }
+        },
+        data() {
+            return {
+                select: ''
+            }
+        },
+        watch: {
+            form(val) {
+                this.resource.forEach(item => {
+                    if (item.full_key === val.resource) {
+                        this.select = item.id;
+                    }
+                });
             }
         }
     };
