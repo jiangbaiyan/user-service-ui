@@ -5,21 +5,17 @@
 
             <Header></Header>
 
-            <Modify :form="row" :dialogVisible="dialogVisible" @resetDialog="resetDialog"></Modify>
+            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @resetDialog="resetDialog"></Modify>
 
             <Delete></Delete>
 
             <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="id" label="id" width="180">
-                </el-table-column>
-                <el-table-column prop="email" label="邮箱" width="180">
-                </el-table-column>
-                <el-table-column prop="name" label="昵称">
-                </el-table-column>
-                <el-table-column prop="is_activate" label="是否激活">
-                </el-table-column>
-                <el-table-column prop="created_at" label="创建时间">
-                </el-table-column>
+                <el-table-column prop="id" label="id" width="180"></el-table-column>
+                <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+                <el-table-column prop="name" label="昵称"></el-table-column>
+                <el-table-column prop="is_activate" label="是否激活"></el-table-column>
+                <el-table-column prop="resource" label="资源节点"></el-table-column>
+                <el-table-column prop="created_at" label="创建时间"></el-table-column>
                 <el-table-column prop="updated_at" label="修改时间"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
@@ -54,9 +50,7 @@
         appId: 'uc_all',
         accessToken: 'adfadsfsad',
         timestamp: 1512412,
-        unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
-        page: 1,
-        length: 10
+        unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8'
     };
 
     export default {
@@ -75,26 +69,26 @@
                 name: '',
                 dialogVisible: false,
                 row: '',
+                resource: []
             }
         },
         methods: {
-            async query(target, page = 1, length = 10) {
+            async query(page = 1, length = 10) {
                 this.page = page;
                 this.length = length;
-                await eval('get' + target);
+                this.$set(params, 'page', page);
+                this.$set(params, 'length', length);
+                await this.getUser();
+            },
+            initSelect() {
+                let url = env.host + '/resource/query';
+                this.$axios.post(url, params).then(response => {
+                    this.resource = response.data.data.data;
+                })
             },
             getUser() {
                 let url = env.host + '/user/query';
                 this.$axios.post(url, params).then(response => {
-                    // 将值赋给table
-                    this.tableData = response.data.data.data;
-                    this.total     = response.data.data.total;
-                })
-            },
-            getResource() {
-                let url = env.host + '/resource/query';
-                this.$axios.post(url, params).then(response => {
-                    // 将值赋给table
                     this.tableData = response.data.data.data;
                     this.total     = response.data.data.total;
                 })
@@ -115,8 +109,8 @@
             }
         },
         mounted() {
-            this.query('User'); // 用户列表
-            this.query('Resource') // 资源列表
+            this.initSelect();
+            this.query();
         },
     }
 </script>
@@ -126,5 +120,4 @@
         margin-top: 20px;
         float: right;
     }
-
 </style>

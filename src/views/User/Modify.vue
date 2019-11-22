@@ -5,11 +5,11 @@
             :before-close="resetDialog"
             width="30%">
         <el-form :model="form">
-            <el-form-item  label="邮箱">
-                <el-input :value="form.email"></el-input>
+            <el-form-item label="邮箱">
+                <el-input v-model="form.email"></el-input>
             </el-form-item>
-            <el-form-item  label="昵称">
-                <el-input :value="form.name"></el-input>
+            <el-form-item label="昵称">
+                <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="是否激活">
                 <el-radio-group v-model="form.is_activate">
@@ -18,23 +18,25 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="资源节点">
-                <el-select v-model="value" placeholder="请选择">
+                <el-select v-model="form.resource" placeholder="请选择资源节点">
                     <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            v-for="item in resource"
+                            :key="item.id"
+                            :label="item.full_key"
+                            :value="item.id">
                     </el-option>
                 </el-select>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
     <el-button @click="resetDialog">取消</el-button>
-    <el-button type="primary" @click="resetDialog">确定</el-button></span>
+    <el-button type="primary" @click="onSubmit">确定</el-button></span>
     </el-dialog>
 </template>
 
 <script>
+    import env from "../../config/env";
+
     export default {
         name: 'Modify',
         props: {
@@ -55,9 +57,37 @@
                 default() {
                     return false;
                 }
+            },
+            resource: {
+                type: Array,
+                default() {
+                    return [];
+                }
             }
         },
         methods: {
+            onSubmit() {
+                let url = env.host + '/user/update';
+                console.log(this.form);
+                this.$axios.put(url, {
+                    appId: 'uc_all',
+                    accessToken: 'adfadsfsad',
+                    timestamp: 1512412,
+                    unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+                    id: this.form.id,
+                    data: {
+                        email: this.form.email,
+                        name: this.form.name,
+                        resource_id: this.form.resource
+                    }
+                }).then(response => {
+                    if (response.data.data.status === 200) {
+                        this.resetDialog();
+                    } else {
+                        alert ('修改失败');
+                    }
+                });
+            },
             resetDialog() {
                 this.dialogVisible = false;
                 this.$emit('resetDialog');
