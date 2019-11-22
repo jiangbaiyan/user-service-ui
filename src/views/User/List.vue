@@ -7,8 +7,6 @@
 
             <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @resetDialog="resetDialog"></Modify>
 
-            <Delete></Delete>
-
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="id" label="id" width="180"></el-table-column>
                 <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
@@ -101,8 +99,21 @@
                 this.row = row;
             },
             handleDelete(row) {
-                this.dialogVisible = true;
-                this.row = row;
+                let url = env.host + '/user/delete';
+                this.$axios.delete(url, {
+                    appId: 'uc_all',
+                    accessToken: 'adfadsfsad',
+                    timestamp: 1512412,
+                    unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+                    id: row.id
+                }).then(response => {
+                    if (response.data.status === 200) {
+                        this.resetDialog();
+                        this.$alert('删除成功', '提示');
+                    } else {
+                        this.$alert('删除失败', '提示');
+                    }
+                });
             },
             resetDialog() {
                 this.dialogVisible = false;
