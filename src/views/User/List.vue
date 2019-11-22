@@ -101,11 +101,13 @@
             handleDelete(row) {
                 let url = env.host + '/user/delete';
                 this.$axios.delete(url, {
-                    appId: 'uc_all',
-                    accessToken: 'adfadsfsad',
-                    timestamp: 1512412,
-                    unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
-                    id: row.id
+                    data: {
+                        appId: 'uc_all',
+                        accessToken: 'adfadsfsad',
+                        timestamp: 1512412,
+                        unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+                        id: row.id
+                    }
                 }).then(response => {
                     if (response.data.status === 200) {
                         this.resetDialog();
