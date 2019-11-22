@@ -76,6 +76,7 @@
                     data: {
                         email: this.form.email,
                         name: this.form.name,
+                        is_activate: this.form.is_activate,
                         resource_id: this.select
                     }
                 }).then(response => {
