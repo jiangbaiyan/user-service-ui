@@ -4,21 +4,13 @@ import router from './router'
 import store from './store'
 import axios from 'axios';
 import './plugins/element.js'
-
-import nos from 'nos-ui-common/dist/nos';
-Vue.use(nos);
+import './plugins/nos.js'
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
-if (localStorage.getItem('unified_token') === undefined) {
-  // 登录（无token）
-} else {
-  // 登录（有token'）
-}
-
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app');
