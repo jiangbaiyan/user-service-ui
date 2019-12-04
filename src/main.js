@@ -11,6 +11,11 @@ Vue.use(nos);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
+if (localStorage.getItem('unified_token') === undefined) {
+  // 登录（无token）
+} else {
+  // 登录（有token'）
+}
 
 new Vue({
   router,
