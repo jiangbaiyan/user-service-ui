@@ -5,6 +5,9 @@ import store from './store'
 import axios from 'axios';
 import './plugins/element.js'
 
+import nos from 'nos-ui-common/dist/nos';
+Vue.use(nos);
+
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
