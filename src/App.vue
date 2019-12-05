@@ -17,10 +17,9 @@
                     'unified_token': unified_token
                 }).then(response => {
                     if (response.data.status === 200) {
-                        this.$alert('登录成功', '提示');
                         this.$router.push('/');
                     } else {
-                        this.$alert('登录失败', '提示');
+                        this.$message.error('您的token过期，请重新登录', '提示');
                         this.$router.push('login')
                     }
                 });
