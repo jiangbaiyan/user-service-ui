@@ -1,5 +1,5 @@
 <template>
-    <NosLogin :params="params" @login-finish="handleLoginFinish"></NosLogin>
+    <NosLogin :dialog-visible="true" :params="params" @login-finish="handleLoginFinish"></NosLogin>
 </template>
 
 <script>

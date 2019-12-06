@@ -5,7 +5,7 @@
 
             <Header></Header>
 
-            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @resetDialog="resetDialog"></Modify>
+            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @reset-dialog="handleResetDialog" @on-submit="handleOnSubmit"></Modify>
 
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="id" label="id" width="180"></el-table-column>
@@ -61,7 +61,7 @@
                 name: '',
                 dialogVisible: false,
                 row: '',
-                resource: []
+                resource: ''
             }
         },
         methods: {
@@ -94,22 +94,29 @@
                 this.row = row;
             },
             handleDelete(row) {
+                // 请求参数
+                Object.assign(params, {
+                    id: row.id
+                });
+                // 请求
                 this.$axios.delete('/user/delete', {
-                    data: {
-                        params,
-                        id: row.id
-                    }
+                    data: params
                 }).then(response => {
                     if (response.data.status === 200) {
-                        this.resetDialog();
+                        // 重置页面
+                        this.handleOnSubmit();
                         this.$message.success('删除成功');
                     } else {
                         this.$message.error('删除失败');
                     }
                 });
             },
-            resetDialog() {
+            handleResetDialog() {
                 this.dialogVisible = false;
+            },
+            handleOnSubmit() {
+                this.initSelect();
+                this.query();
             }
         },
         mounted() {

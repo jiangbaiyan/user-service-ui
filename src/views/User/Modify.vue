@@ -1,6 +1,6 @@
 <template>
     <el-dialog
-            :title="title"
+            title="修改"
             :visible.sync="dialogVisible"
             :before-close="resetDialog"
             width="30%">
@@ -18,7 +18,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="资源节点">
-                <el-select v-model="this.select" placeholder="请选择资源节点">
+                <el-select v-model="form.resource_id" placeholder="请选择资源节点">
                     <el-option
                             v-for="item in resource"
                             :key="item.id"
@@ -39,71 +39,36 @@
     let params = env.commonParams;
     export default {
         name: 'Modify',
-        props: {
-            title: {
-                type: String,
-                default() {
-                    return '修改';
-                }
-            },
-            form: {
-                type: Object,
-                default() {
-                    return null;
-                }
-            },
-            dialogVisible: {
-                type: Boolean,
-                default() {
-                    return false;
-                }
-            },
-            resource: {
-                type: Array,
-                default() {
-                    return [];
-                }
-            }
-        },
+        props: ['form', 'dialogVisible', 'resource'],
         methods: {
             onSubmit() {
-                this.$axios.put('/user/update', {
-                    params,
+                // 参数
+                Object.assign(params, {
                     id: this.form.id,
                     data: {
                         email: this.form.email,
                         name: this.form.name,
                         is_activate: this.form.is_activate,
-                        resource_id: this.select
+                        resource_id: this.form.resource_id
                     }
-                }).then(response => {
+                });
+                // 请求
+                this.$axios.put('/user/update', params).then(response => {
                     if (response.data.status === 200) {
                         this.resetDialog();
                         this.$message.success('修改成功');
+                        this.$emit('on-submit');
                     } else {
+                        this.resetDialog();
                         this.$message.error('修改失败');
                     }
                 });
             },
             resetDialog() {
                 this.dialogVisible = false;
-                this.$emit('resetDialog');
+                this.$emit('reset-dialog');
             }
         },
-        data() {
-            return {
-                select: ''
-            }
-        },
-        watch: {
-            form(val) {
-                this.resource.forEach(item => {
-                    if (item.full_key === val.resource) {
-                        this.select = item.id;
-                    }
-                });
-            }
-        }
     };
 </script>
 
