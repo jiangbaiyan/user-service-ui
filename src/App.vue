@@ -19,7 +19,7 @@
                     if (response.data.status === 200) {
                         this.$router.push('/');
                     } else {
-                        this.$message.error('您的token过期，请重新登录', '提示');
+                        this.$message.error('您的token过期，请重新登录');
                         this.$router.push('login')
                     }
                 });

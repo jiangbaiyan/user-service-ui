@@ -36,6 +36,7 @@
 
 <script>
     import env from "../../config/env";
+    let params = env.commonParams;
     export default {
         name: 'Modify',
         props: {
@@ -66,12 +67,8 @@
         },
         methods: {
             onSubmit() {
-                let url = env.host + '/user/update';
-                this.$axios.put(url, {
-                    appId: 'uc_all',
-                    accessToken: 'adfadsfsad',
-                    timestamp: 1512412,
-                    unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+                this.$axios.put('/user/update', {
+                    params,
                     id: this.form.id,
                     data: {
                         email: this.form.email,
@@ -82,9 +79,9 @@
                 }).then(response => {
                     if (response.data.status === 200) {
                         this.resetDialog();
-                        this.$alert('修改成功', '提示');
+                        this.$message.success('修改成功');
                     } else {
-                        this.$alert('修改失败', '提示');
+                        this.$message.error('修改失败');
                     }
                 });
             },

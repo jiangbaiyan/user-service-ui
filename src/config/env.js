@@ -1,3 +1,11 @@
+// 公共参数
+let commonParams = {
+    appId: 'uc_all',
+    accessToken: 'uc_all',
+    timestamp: 1512412,
+    unified_token: localStorage.getItem('unified_token'),
+};
+
 export default {
-    host: 'http://152.136.125.67:9600',
-}
+    commonParams
+};

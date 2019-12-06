@@ -39,18 +39,12 @@
 </template>
 
 <script>
-    import env from '../../config/env';
     import Modify from "./Modify";
     import Header from "../../components/Header";
     import Footer from "../../components/Footer";
+    import env from "../../config/env";
 
-    let params = {
-        appId: 'uc_all',
-        accessToken: 'adfadsfsad',
-        timestamp: 1512412,
-        unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8'
-    };
-
+    let params = env.commonParams;
     export default {
         name: "List",
         components: {
@@ -74,19 +68,20 @@
             async query(page = 1, length = 10) {
                 this.page = page;
                 this.length = length;
-                this.$set(params, 'page', page);
-                this.$set(params, 'length', length);
+                // 带上分页请求参数
+                Object.assign(params, {
+                    page: page,
+                    length: length
+                });
                 await this.getUser();
             },
             initSelect() {
-                let url = env.host + '/resource/query';
-                this.$axios.post(url, params).then(response => {
+                this.$axios.post('/resource/query', params).then(response => {
                     this.resource = response.data.data.data;
                 })
             },
             getUser() {
-                let url = env.host + '/user/query';
-                this.$axios.post(url, params).then(response => {
+                this.$axios.post('/user/query', params).then(response => {
                     this.tableData = response.data.data.data;
                     this.total     = response.data.data.total;
                 })
@@ -99,21 +94,17 @@
                 this.row = row;
             },
             handleDelete(row) {
-                let url = env.host + '/user/delete';
-                this.$axios.delete(url, {
+                this.$axios.delete('/user/delete', {
                     data: {
-                        appId: 'uc_all',
-                        accessToken: 'adfadsfsad',
-                        timestamp: 1512412,
-                        unified_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywidGltZSI6MTU3Mjc0OTIyNH0.2k7x_YZ1TpXgdvkFiuMAWgg-Z9z5AIVFu5pprp2WBb8',
+                        params,
                         id: row.id
                     }
                 }).then(response => {
                     if (response.data.status === 200) {
                         this.resetDialog();
-                        this.$alert('删除成功', '提示');
+                        this.$message.success('删除成功');
                     } else {
-                        this.$alert('删除失败', '提示');
+                        this.$message.error('删除失败');
                     }
                 });
             },
