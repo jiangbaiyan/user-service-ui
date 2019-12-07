@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import env from "./config/env";
+    let params = env.commonParams;
     export default {
         name:'app',
         mounted() {
@@ -13,9 +15,10 @@
             if (unified_token === null) {
                 this.$router.push('login');
             } else {
-                this.$axios.post('/unified/login', {
+                Object.assign(params, {
                     'unified_token': unified_token
-                }).then(response => {
+                })
+                this.$axios.post('/unified/login', params).then(response => {
                     if (response.data.status === 200) {
                         this.$router.push('/');
                     } else {
