@@ -3,7 +3,7 @@ module.exports = {
         proxy: 'http://152.136.125.67:9600/v1/'
     },
     outputDir: 'dist',
-    assetsDir: 'public',
+    assetsDir: './',
     runtimeCompiler: undefined,
     productionSourceMap: false,
     parallel: undefined,
