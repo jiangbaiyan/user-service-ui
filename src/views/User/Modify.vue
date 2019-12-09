@@ -53,7 +53,7 @@
                     }
                 });
                 // 请求
-                this.$axios.put('/user/update', params).then(response => {
+                this.$axios.put('/v1/user/update', params).then(response => {
                     if (response.data.status === 200) {
                         this.resetDialog();
                         this.$message.success('修改成功');

@@ -76,12 +76,12 @@
                 await this.getUser();
             },
             initSelect() {
-                this.$axios.post('/resource/query', params).then(response => {
+                this.$axios.post('/v1/resource/query', params).then(response => {
                     this.resource = response.data.data.data;
                 })
             },
             getUser() {
-                this.$axios.post('/user/query', params).then(response => {
+                this.$axios.post('/v1/user/query', params).then(response => {
                     this.tableData = response.data.data.data;
                     this.total     = response.data.data.total;
                 })
@@ -99,7 +99,7 @@
                     id: row.id
                 });
                 // 请求
-                this.$axios.delete('/user/delete', {
+                this.$axios.delete('/v1/user/delete', {
                     data: params
                 }).then(response => {
                     if (response.data.status === 200) {
