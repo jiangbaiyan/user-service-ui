@@ -1,7 +1,7 @@
 module.exports = {
     publicPath: './',
     outputDir: 'dist',
-    assetsDir: '',
+    assetsDir: './',
     runtimeCompiler: undefined,
     productionSourceMap: false,
     parallel: undefined,
