@@ -17,7 +17,7 @@
             } else {
                 Object.assign(params, {
                     'unified_token': unified_token
-                })
+                });
                 this.$axios.post('/v1/unified/login', params).then(response => {
                     if (response.data.status === 200) {
                         this.$router.push('/');
