@@ -1,11 +1,14 @@
 <template>
     <el-container>
 
+        <el-header>
+            <Header></Header>
+        </el-header>
+
         <el-main>
 
-            <Header></Header>
-
-            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @reset-dialog="handleResetDialog" @on-submit="handleOnSubmit"></Modify>
+            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @reset-dialog="handleResetDialog"
+                    @on-submit="handleOnSubmit"></Modify>
 
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="id" label="id" width="180"></el-table-column>
@@ -31,9 +34,11 @@
                     @current-change="pageChange">
             </el-pagination>
 
-            <Footer></Footer>
-
         </el-main>
+
+        <el-footer>
+            <Footer></Footer>
+        </el-footer>
 
     </el-container>
 </template>
