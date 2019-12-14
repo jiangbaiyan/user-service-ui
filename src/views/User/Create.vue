@@ -12,6 +12,9 @@
                 <el-form-item label="邮箱">
                     <el-input v-model="form.email"></el-input>
                 </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model="form.password"></el-input>
+                </el-form-item>
                 <el-form-item label="昵称">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
@@ -66,6 +69,7 @@
                     data: {
                         email: this.form.email,
                         name: this.form.name,
+                        password: this.form.password,
                         is_activate: this.form.is_activate,
                         resource_id: this.form.resource_id
                     }
