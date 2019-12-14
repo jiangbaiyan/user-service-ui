@@ -105,9 +105,3 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .el-pagination {
-        margin-top: 20px;
-        float: right;
-    }
-</style>

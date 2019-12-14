@@ -41,4 +41,8 @@
         margin: 0;
         padding: 0;
     }
+    .el-pagination {
+        margin-top: 20px;
+        float: right;
+    }
 </style>

@@ -7,20 +7,23 @@
 
         <el-main>
 
-            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @reset-dialog="handleResetDialog"
-                    @on-submit="handleOnSubmit"></Modify>
+            <Create :resource="resource"  @on-submit="handleOnSubmit"></Create>
 
             <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="id" label="id" width="180"></el-table-column>
+                <el-table-column prop="id" label="id" width="200"></el-table-column>
                 <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
                 <el-table-column prop="name" label="昵称"></el-table-column>
                 <el-table-column prop="is_activate" label="是否激活"></el-table-column>
                 <el-table-column prop="resource" label="资源节点"></el-table-column>
                 <el-table-column prop="created_at" label="创建时间"></el-table-column>
                 <el-table-column prop="updated_at" label="修改时间"></el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="修改" width="80">
                     <template slot-scope="scope">
-                        <el-button type="primary" @click="handleModify(scope.row)">修改</el-button>
+                        <Modify :form="scope.row" :resource="resource" @on-submit="handleOnSubmit"></Modify>
+                    </template>
+                </el-table-column>
+                <el-table-column label="删除" width="150">
+                    <template slot-scope="scope">
                         <el-button type="primary" @click="handleDelete(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -45,6 +48,7 @@
 
 <script>
     import Modify from "./Modify";
+    import Create from "./Create";
     import Header from "../../components/Header";
     import Footer from "../../components/Footer";
     import env from "../../config/env";
@@ -55,16 +59,16 @@
         components: {
             Header,
             Footer,
-            Modify
+            Modify,
+            Create
         },
         data() {
             return {
                 page: 1,
                 length: 10,
                 total: 0,
-                tableData: '',
+                tableData: [],
                 name: '',
-                dialogVisible: false,
                 row: '',
                 resource: ''
             }
@@ -95,7 +99,6 @@
                 this.query(curPage) // 分页切换查询
             },
             handleModify(row) {
-                this.dialogVisible = true;
                 this.row = row;
             },
             handleDelete(row) {
@@ -116,9 +119,6 @@
                     }
                 });
             },
-            handleResetDialog() {
-                this.dialogVisible = false;
-            },
             handleOnSubmit() {
                 this.initSelect();
                 this.query();
@@ -132,8 +132,5 @@
 </script>
 
 <style scoped lang="scss">
-    .el-pagination {
-        margin-top: 20px;
-        float: right;
-    }
+
 </style>

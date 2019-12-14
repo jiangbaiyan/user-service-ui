@@ -5,27 +5,8 @@
             :before-close="resetDialog"
             width="30%">
         <el-form :model="form">
-            <el-form-item label="邮箱">
-                <el-input v-model="form.email"></el-input>
-            </el-form-item>
-            <el-form-item label="昵称">
-                <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="是否激活">
-                <el-radio-group v-model="form.is_activate">
-                    <el-radio :label="1">已激活</el-radio>
-                    <el-radio :label="0">未激活</el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="资源节点">
-                <el-select v-model="form.resource_id" placeholder="请选择资源节点">
-                    <el-option
-                            v-for="item in resource"
-                            :key="item.id"
-                            :label="item.full_key"
-                            :value="item.id">
-                    </el-option>
-                </el-select>
+            <el-form-item label="节点名称">
+                <el-input v-model="form.cur_key"></el-input>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -39,9 +20,9 @@
     let params = env.commonParams;
     export default {
         name: 'Modify',
-        props: ['form', 'dialogVisible', 'resource'],
+        props: ['form', 'dialogVisible'],
         methods: {
-            onSubmit() {
+            handleOnSubmit() {
                 // 参数
                 Object.assign(params, {
                     id: this.form.id,
@@ -53,11 +34,10 @@
                     }
                 });
                 // 请求
-                this.$axios.put('/v1/user/update', params).then(response => {
+                this.$axios.put('/v1/user/create', params).then(response => {
                     if (response.data.status === 200) {
                         this.resetDialog();
                         this.$message.success('修改成功');
-                        this.$emit('on-submit');
                     } else {
                         this.resetDialog();
                         this.$message.error('修改失败');

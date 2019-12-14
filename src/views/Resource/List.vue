@@ -7,7 +7,7 @@
 
         <el-main>
 
-            <Modify :form="row" :dialogVisible="dialogVisible" :resource="resource" @reset-dialog="handleResetDialog"
+            <Modify :form="row" :dialogVisible="dialogVisible" @reset-dialog="handleResetDialog"
                     @on-submit="handleOnSubmit"></Modify>
 
             <el-table :data="tableData" stripe style="width: 100%">
@@ -45,6 +45,7 @@
     import Header from "../../components/Header";
     import Footer from "../../components/Footer";
     import env from "../../config/env";
+    import Modify from "./Modify";
 
     let params = env.commonParams;
     export default {
@@ -52,13 +53,14 @@
         components: {
             Header,
             Footer,
+            Modify
         },
         data() {
             return {
                 page: 1,
                 length: 10,
                 total: 0,
-                tableData: '',
+                tableData: [],
                 name: '',
                 dialogVisible: false,
                 row: '',
@@ -105,9 +107,3 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .el-pagination {
-        margin-top: 20px;
-        float: right;
-    }
-</style>
