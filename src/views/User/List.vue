@@ -102,21 +102,27 @@
                 this.row = row;
             },
             handleDelete(row) {
-                // 请求参数
-                Object.assign(params, {
-                    id: row.id
-                });
-                // 请求
-                this.$axios.delete('/v1/user/delete', {
-                    data: params
-                }).then(response => {
-                    if (response.data.status === 200) {
-                        // 重置页面
-                        this.handleOnSubmit();
-                        this.$message.success('删除成功');
-                    } else {
-                        this.$message.error('删除失败');
-                    }
+                this.$confirm('将删除该用户, 是否确定？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    // 请求参数
+                    Object.assign(params, {
+                        id: row.id
+                    });
+                    // 请求
+                    this.$axios.delete('/v1/user/delete', {
+                        data: params
+                    }).then(response => {
+                        if (response.data.status === 200) {
+                            // 重置页面
+                            this.handleOnSubmit();
+                            this.$message.success('删除成功');
+                        } else {
+                            this.$message.error('删除失败');
+                        }
+                    });
                 });
             },
             handleOnSubmit() {
