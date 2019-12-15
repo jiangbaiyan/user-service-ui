@@ -11,7 +11,7 @@
 
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="id" label="id" width="200"></el-table-column>
-                <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+                <el-table-column prop="email" label="邮箱" width="300"></el-table-column>
                 <el-table-column prop="name" label="昵称"></el-table-column>
                 <el-table-column prop="is_activate" label="是否激活"></el-table-column>
                 <el-table-column prop="resource" label="资源节点"></el-table-column>
@@ -24,7 +24,7 @@
                 </el-table-column>
                 <el-table-column label="删除" width="150">
                     <template slot-scope="scope">
-                        <el-button type="primary" @click="handleDelete(scope.row)">删除</el-button>
+                        <Delete :row="scope.row" @on-submit="handleOnSubmit"></Delete>
                     </template>
                 </el-table-column>
             </el-table>
@@ -49,6 +49,7 @@
 <script>
     import Modify from "./Modify";
     import Create from "./Create";
+    import Delete from "./Delete";
     import Header from "../../components/Header";
     import Footer from "../../components/Footer";
     import env from "../../config/env";
@@ -60,7 +61,8 @@
             Header,
             Footer,
             Modify,
-            Create
+            Create,
+            Delete
         },
         data() {
             return {
@@ -69,8 +71,7 @@
                 total: 0,
                 tableData: [],
                 name: '',
-                row: '',
-                resource: ''
+                resource: []
             }
         },
         methods: {
@@ -97,33 +98,6 @@
             },
             pageChange(curPage) {
                 this.query(curPage) // 分页切换查询
-            },
-            handleModify(row) {
-                this.row = row;
-            },
-            handleDelete(row) {
-                this.$confirm('将删除该用户, 是否确定？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    // 请求参数
-                    Object.assign(params, {
-                        id: row.id
-                    });
-                    // 请求
-                    this.$axios.delete('/v1/user/delete', {
-                        data: params
-                    }).then(response => {
-                        if (response.data.status === 200) {
-                            // 重置页面
-                            this.handleOnSubmit();
-                            this.$message.success('删除成功');
-                        } else {
-                            this.$message.error('删除失败');
-                        }
-                    });
-                });
             },
             handleOnSubmit() {
                 this.initSelect();

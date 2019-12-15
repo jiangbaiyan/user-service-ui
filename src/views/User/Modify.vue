@@ -80,7 +80,6 @@
             },
             resetDialog() {
                 this.dialogVisible = false;
-                this.$emit('reset-dialog');
             }
         },
     };

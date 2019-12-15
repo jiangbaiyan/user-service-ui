@@ -7,19 +7,23 @@
 
         <el-main>
 
-            <Modify :form="row" :dialogVisible="dialogVisible" @reset-dialog="handleResetDialog"
-                    @on-submit="handleOnSubmit"></Modify>
+            <Create :resource="resource" @on-submit="handleOnSubmit"></Create>
 
             <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="id" label="id" width="180"></el-table-column>
-                <el-table-column prop="cur_key" label="节点名称" width="180"></el-table-column>
-                <el-table-column prop="full_key" label="完整节点" width="180"></el-table-column>
-                <el-table-column prop="created_at" label="创建时间"></el-table-column>
-                <el-table-column prop="updated_at" label="修改时间"></el-table-column>
+                <el-table-column prop="id" label="id" width="200"></el-table-column>
+                <el-table-column prop="parent_resource_id" label="父节点id" width="200"></el-table-column>
+                <el-table-column prop="cur_key" label="节点名称" width="300"></el-table-column>
+                <el-table-column prop="full_key" label="完整节点" width="350"></el-table-column>
+                <el-table-column prop="created_at" label="创建时间" width="300"></el-table-column>
+                <el-table-column prop="updated_at" label="修改时间" width="300"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary" @click="handleModify(scope.row)">修改</el-button>
-                        <el-button type="primary" @click="handleDelete(scope.row)">删除</el-button>
+                        <Modify :form="scope.row" :resource="resource" @on-submit="handleOnSubmit"></Modify>
+                    </template>
+                </el-table-column>
+                <el-table-column label="删除" width="150">
+                    <template slot-scope="scope">
+                        <Delete :row="scope.row" @on-submit="handleOnSubmit"></Delete>
                     </template>
                 </el-table-column>
             </el-table>
@@ -46,6 +50,8 @@
     import Footer from "../../components/Footer";
     import env from "../../config/env";
     import Modify from "./Modify";
+    import Create from "./Create";
+    import Delete from "./Delete";
 
     let params = env.commonParams;
     export default {
@@ -53,7 +59,9 @@
         components: {
             Header,
             Footer,
-            Modify
+            Modify,
+            Create,
+            Delete
         },
         data() {
             return {
@@ -62,8 +70,7 @@
                 total: 0,
                 tableData: [],
                 name: '',
-                dialogVisible: false,
-                row: '',
+                resource: []
             }
         },
         methods: {
@@ -83,18 +90,17 @@
                     this.total = response.data.data.total;
                 })
             },
+            initSelect() {
+                this.$axios.post('/v1/resource/query', params).then(response => {
+                    this.resource = response.data.data.data;
+                    this.resource.unshift({
+                        id: 0,
+                        full_key: '无',
+                    });
+                })
+            },
             pageChange(curPage) {
                 this.query(curPage) // 分页切换查询
-            },
-            handleModify(row) {
-                this.dialogVisible = true;
-                this.row = row;
-            },
-            handleDelete() {
-
-            },
-            handleResetDialog() {
-                this.dialogVisible = false;
             },
             handleOnSubmit() {
                 this.initSelect();
@@ -102,6 +108,7 @@
             }
         },
         mounted() {
+            this.initSelect();
             this.query();
         },
     }
