@@ -24,9 +24,8 @@
                         data: params
                     }).then(response => {
                         if (response.data.status === 200) {
-                            // 重置页面
-                            this.$emit('on-submit');
                             this.$message.success('删除成功');
+                            this.$emit('on-submit');
                         } else {
                             this.$message.error('删除失败');
                         }

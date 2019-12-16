@@ -8,7 +8,7 @@
                 width="30%">
             <el-form :model="form">
                 <el-form-item label="父节点">
-                    <el-select v-model="form.resource_id" placeholder="请选择资源节点">
+                    <el-select v-model="form.parent_resource_id" placeholder="请选择资源节点">
                         <el-option
                                 v-for="item in resource"
                                 :key="item.id"
@@ -18,7 +18,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="当前节点名称">
-                    <el-input v-model="form.password"></el-input>
+                    <el-input v-model="form.cur_key"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -49,6 +49,7 @@
                 Object.assign(params, {
                     id: this.form.id,
                     data: {
+                        parent_resource_id: this.form.parent_resource_id,
                         cur_key: this.form.cur_key
                     }
                 });
@@ -57,6 +58,7 @@
                     if (response.data.status === 200) {
                         this.resetDialog();
                         this.$message.success('修改成功');
+                        this.$emit('on-submit');
                     } else {
                         this.resetDialog();
                         this.$message.error('修改失败');
