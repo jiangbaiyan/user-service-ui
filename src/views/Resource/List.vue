@@ -13,9 +13,10 @@
                 <el-table-column prop="id" label="id" width="200"></el-table-column>
                 <el-table-column prop="parent_resource_id" label="父节点id" width="200"></el-table-column>
                 <el-table-column prop="cur_key" label="节点名称" width="300"></el-table-column>
-                <el-table-column prop="full_key" label="完整节点" width="350"></el-table-column>
-                <el-table-column prop="created_at" label="创建时间" width="300"></el-table-column>
-                <el-table-column prop="updated_at" label="修改时间" width="300"></el-table-column>
+                <el-table-column prop="full_key" label="AppId" width="300"></el-table-column>
+                <el-table-column prop="app_secret" label="AppSecret" width="200"></el-table-column>
+                <el-table-column prop="created_at" label="创建时间" width="250"></el-table-column>
+                <el-table-column prop="updated_at" label="修改时间" width="200"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <Modify :form="scope.row" :resource="resource" @on-submit="handleOnSubmit"></Modify>
