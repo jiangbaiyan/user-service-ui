@@ -11,12 +11,12 @@
         name:'app',
         mounted() {
             // token校验 && 登录
-            let unified_token = localStorage.getItem('unified_token');
-            if (unified_token === null) {
+            let unifiedToken = localStorage.getItem('unified_token');
+            if (unifiedToken === null) {
                 this.$router.push('login');
             } else {
                 Object.assign(params, {
-                    'unified_token': unified_token
+                    'unified_token': unifiedToken
                 });
                 this.$axios.post('/v1/unified/login', params).then(response => {
                     if (response.data.status === 200) {
@@ -44,5 +44,8 @@
     .el-pagination {
         margin-top: 20px;
         float: right;
+    }
+    .el-menu-item {
+        margin-left: 5%;
     }
 </style>
