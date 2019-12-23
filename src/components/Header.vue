@@ -25,26 +25,20 @@
             }
         },
         mounted() {
-            // token校验 && 登录
-            let unifiedToken = localStorage.getItem('unified_token');
-            if (unifiedToken === null) {
-                this.$router.push('login');
-            } else {
-                Object.assign(params, {
-                    'unified_token': unifiedToken
-                });
-                this.$axios.post('/v1/unified/user/query', params).then(response => {
-                    if (response.data.status === 200) {
-                        this.name = response.data.data.data[0].name;
-                        if (this.name === undefined) {
-                            this.name = response.data.data.data[0].email;
-                        }
-                    } else {
-                        this.$message.error('您的token过期，请重新登录');
-                        this.$router.push('login')
+            Object.assign(params, {
+                'unified_token': this.$cookies.get('unified_token')
+            });
+            this.$axios.post('/v1/unified/user/query', params).then(response => {
+                if (response.data.status === 200) {
+                    this.name = response.data.data.data[0].name;
+                    if (this.name === undefined) {
+                        this.name = response.data.data.data[0].email;
                     }
-                });
-            }
+                } else {
+                    this.$message.error('您的token过期，请重新登录');
+                    this.$router.push('login')
+                }
+            });
         }
     }
 </script>

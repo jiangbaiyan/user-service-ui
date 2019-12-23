@@ -10,12 +10,6 @@ const routes = [
         name: 'list',
         component: () => import('../views/User/List')
     },
-    // 登录页
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import('../views/Login/Login')
-    },
     // 资源节点列表
     {
         path: '/resource',

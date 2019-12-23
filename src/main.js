@@ -5,6 +5,8 @@ import store from './store'
 import axios from 'axios';
 import './plugins/element.js'
 import './plugins/nos.js'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies);
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
