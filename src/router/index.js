@@ -7,7 +7,7 @@ const routes = [
     // 登录页
     {
         path: '/',
-        name: '',
+        name: 'login',
         component: () => import('../views/Login')
     },
     // 用户列表
