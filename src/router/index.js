@@ -4,10 +4,16 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 const routes = [
-    // 用户列表
+    // 登录页
     {
         path: '/',
-        name: 'list',
+        name: '',
+        component: () => import('../views/Login')
+    },
+    // 用户列表
+    {
+        path: '/user',
+        name: 'user',
         component: () => import('../views/User/List')
     },
     // 资源节点列表

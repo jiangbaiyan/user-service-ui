@@ -26,17 +26,17 @@
         },
         mounted() {
             Object.assign(params, {
-                'unified_token': this.$cookies.get('unified_token')
+                'unified_token': localStorage.getItem('unified_token')
             });
             this.$axios.post('/v1/unified/user/query', params).then(response => {
                 if (response.data.status === 200) {
                     this.name = response.data.data.data[0].name;
-                    if (this.name === undefined) {
+                    if (this.name === '' || this.name === undefined) {
                         this.name = response.data.data.data[0].email;
                     }
                 } else {
                     this.$message.error('您的token过期，请重新登录');
-                    this.$router.push('login')
+                    this.$router.push('/')
                 }
             });
         }
