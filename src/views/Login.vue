@@ -21,8 +21,13 @@
             handleLoginFinish(data) {
                 // 登录成功，跳到首页
                 if (data.status === 200) {
-                    localStorage.setItem('unified_token', data.data.unified_token);
-                    this.$router.push('/user');
+                    // 激活检测
+                    if (data.data.is_activate === 0) {
+                        this.$message.error('您还没有激活您的账户，请到邮箱激活后重试');
+                    } else {
+                        localStorage.setItem('unified_token', data.data.unified_token);
+                        this.$router.push('/user');
+                    }
                 } else { // 登录失败，刷新页面
                     this.$message.error('登录失败，请重试');
                     location.reload();
