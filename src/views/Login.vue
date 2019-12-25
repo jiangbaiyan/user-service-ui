@@ -1,5 +1,5 @@
 <template>
-    <NosRegLogin :params="params" :login-url="loginUrl" :register-url="registerUrl" @login-finish="handleLoginFinish"></NosRegLogin>
+    <NosRegLogin :unified_token="unifiedToken" :params="params" :login-url="loginUrl" :register-url="registerUrl" @login-finish="handleLoginFinish"></NosRegLogin>
 </template>
 
 <script>
@@ -14,7 +14,8 @@
                     callback_url: 'http://152.136.125.67:9600'
                 },
                 loginUrl   : '/v1/unified/login',
-                registerUrl: '/v1/unified/register'
+                registerUrl: '/v1/unified/register',
+                unifiedToken: ''
             }
         },
         methods: {
@@ -33,6 +34,9 @@
                     location.reload();
                 }
             }
+        },
+        mounted() {
+            this.unifiedToken = localStorage.getItem('unified_token');
         }
     }
 </script>
