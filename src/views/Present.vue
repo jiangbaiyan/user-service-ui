@@ -1,11 +1,13 @@
 <template>
-    <audio id="audio" src="20191226_214816.mp3" controls style="display:block; margin:20% auto;"></audio>
+    <audio ref="audio" src="20191226_214816.mp3" controls style="display:block; margin:20% auto;"></audio>
 </template>
 
 <script>
-    document.getElementById('audio').volume = 1;
     export default {
-        name: "Present"
+        name: "Present",
+        mounted() {
+            this.$refs.audio.volume = 1;
+        }
     }
 </script>
 
