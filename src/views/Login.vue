@@ -35,6 +35,7 @@
                 }
             }
         },
+        // 这里必须为created，否则如果用mounted，unified_token永远传的是空！
         created() {
             this.unifiedToken = localStorage.getItem('unified_token');
         }
