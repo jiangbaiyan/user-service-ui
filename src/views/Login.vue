@@ -35,7 +35,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             this.unifiedToken = localStorage.getItem('unified_token');
         }
     }
