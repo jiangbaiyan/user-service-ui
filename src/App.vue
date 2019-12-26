@@ -24,7 +24,4 @@
         margin-top: 20px;
         float: right;
     }
-    .el-menu-item {
-        margin-left: 5%;
-    }
 </style>

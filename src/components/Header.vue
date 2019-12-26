@@ -1,17 +1,20 @@
 <template>
-    <el-menu
-            :default-active="$route.path"
-            mode="horizontal"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            background-color="#545c64"
-            class="el-menu-demo"
-            router>
-        <el-menu-item class="first el-icon-user" index="/user"> 用户管理</el-menu-item>
-        <el-menu-item class="el-icon-s-cooperation" index="/resource"> 资源管理</el-menu-item>
-        <el-menu-item class="el-icon-lock" index="/auth"> 权限管理</el-menu-item>
-        <el-menu-item class="user">欢迎您：{{name}}</el-menu-item>
-    </el-menu>
+    <div>
+        <NosSiteMap :dialogVisible="dialogVisible"></NosSiteMap>
+        <el-menu
+                :default-active="$route.path"
+                mode="horizontal"
+                text-color="#fff"
+                active-text-color="#ffd04b"
+                background-color="#545c64"
+                class="el-menu-demo"
+                router>
+            <el-menu-item class="first el-icon-user" index="/user"> 用户管理</el-menu-item>
+            <el-menu-item class="el-icon-s-cooperation" index="/resource"> 资源管理</el-menu-item>
+            <el-menu-item class="el-icon-lock" @click="dialogVisible = true"> 站点地图</el-menu-item>-
+            <el-menu-item class="user">欢迎您：{{name}}</el-menu-item>
+        </el-menu>
+    </div>
 </template>
 
 <script>
@@ -21,7 +24,8 @@
         name: "Header",
         data() {
             return {
-                name: ''
+                name: '',
+                dialogVisible: false
             }
         },
         mounted() {
@@ -36,7 +40,7 @@
                     }
                 } else {
                     this.$message.error('您的token过期，请重新登录');
-                    this.$router.push('/')
+                    this.$router.push('/');
                 }
             });
         }
@@ -49,5 +53,8 @@
     }
     .user {
         float: right;
+    }
+    .el-menu-item {
+        margin-left: 5%;
     }
 </style>
