@@ -20,8 +20,11 @@
         },
         methods: {
             handleLoginFinish(data) {
-                // 登录成功，跳到首页
-                if (data.status === 200) {
+                // 注册完毕
+                if (data.status === 666) {
+                    this.$message.success('激活邮件已发送至您的邮箱，请查收');
+                    location.reload();
+                } else if (data.status === 200) {
                     // 激活检测
                     if (data.data.is_activate === 0) {
                         this.$message.error('您还没有激活您的账户，请到邮箱激活后重试');
