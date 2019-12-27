@@ -27,12 +27,6 @@ const routes = [
         path: '/auth',
         name: 'auth',
         component: () => import('../views/Auth/List')
-    },
-    // 临时
-    {
-        path: '/present',
-        name: 'present',
-        component: () => import('../views/Present')
     }
 ];
 
