@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NosSiteMap :dialogVisible="dialogVisible"></NosSiteMap>
+        <NosSiteMap :dialogVisible="dialogVisible" @dialog-close="dialogVisible = false"></NosSiteMap>
         <el-menu
                 :default-active="$route.path"
                 mode="horizontal"
@@ -11,7 +11,7 @@
                 router>
             <el-menu-item class="first el-icon-user" index="/user"> 用户管理</el-menu-item>
             <el-menu-item class="el-icon-s-cooperation" index="/resource"> 资源管理</el-menu-item>
-            <el-menu-item class="el-icon-lock" @click="dialogVisible = true"> 站点地图</el-menu-item>-
+            <el-menu-item class="el-icon-location" @click="dialogVisible = true"> 站点地图</el-menu-item>-
             <el-menu-item class="user">欢迎您：{{name}}</el-menu-item>
         </el-menu>
     </div>
