@@ -35,7 +35,7 @@
                 } else { // 登录失败，刷新页面
                     // 设置token失效
                     localStorage.setItem('unified_token', '');
-                    this.$message.error('登录失败，请重试');
+                    this.$message.error(data.msg);
                 }
             }
         },
