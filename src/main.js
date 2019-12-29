@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.directive('title', {
     inserted: function (el) {
-        document.title = el.dataset.title
+        document.title = el.dataset.title;
     }
 });
 
