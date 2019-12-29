@@ -11,7 +11,7 @@
                     appId: 'uc_all',
                     accessToken: 'uc_all',
                     timestamp: 131231,
-                    callback_url: 'http://152.136.125.67:9600'
+                    callback_url: 'http://152.136.125.67:8600'
                 },
                 loginUrl   : '/v1/unified/login',
                 registerUrl: '/v1/unified/register',
@@ -33,8 +33,9 @@
                         this.$router.push('/user');
                     }
                 } else { // 登录失败，刷新页面
+                    // 设置token失效
+                    localStorage.setItem('unified_token', '');
                     this.$message.error('登录失败，请重试');
-                    location.reload();
                 }
             }
         },
