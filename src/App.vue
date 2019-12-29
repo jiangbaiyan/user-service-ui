@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" v-title data-title="用户中心">
         <router-view></router-view>
     </div>
 </template>
